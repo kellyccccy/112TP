@@ -2085,8 +2085,8 @@ class Hero(GameObject):
         # 2 directions: 1 for to right, -1 for to left
         self.yStatus = 1
         # 2 states: 1 for on ground, 0 for in air
-        # self.jumpTime = 0
-        # self.jumpCount = 0
+        self.jumpStatus = 0
+        self.jumpTime = 0
         self.deltaX = 0
         self.deltaY = 0
         self.rising = False
@@ -2175,7 +2175,8 @@ class Hero(GameObject):
                     return False
         # print("isLegalMoveRight")
         return True
-
+    
+    # check whether the hero will hit the top when jumping
     def isLegalJump(self):
         # print("checking moving up", self.x, self.y)
         if self.y - self.height/2 + self.ySpeed < 0: # out of screen
@@ -2314,19 +2315,22 @@ class Hero(GameObject):
             self.xSpeed = 0
 
         if IWANNA.stage != 7:
-            if keysDown(pygame.K_UP): # try to jump
+            if (keysDown(pygame.K_UP) and self.jumpStatus != 3 and self.jumpTime < 7): # try to jump
                 # print("pressed Up")
-                self.moveUp()
-
-                # self.yStatus = 0 # in air
-                # self.jumpTime += 1
-                # self.ySpeed += self.jump
-                # if self.jumpTime > 30:
-                #     self.ySpeed = 0
-                #     self.jumpCount += 1
-            
+                if(self.jumpStatus == 0):
+                    self.moveUp()
+                    self.jumpStatus += 1
+                    self.jumpTime = 0
+                elif(self.jumpStatus == 2):
+                    self.moveUp()
+                    self.jumpStatus += 1
+                    self.jumpTime = 0
+                self.jumpTime += 1
             elif self.isLegalFall(): # in air but not jumping, i.e. free fall
                 # print("falling")
+                if(self.jumpStatus == 1):
+                    self.jumpStatus += 1
+                self.jumpTime = 0
                 self.ySpeed += self.gravity
                 if self.ySpeed < 0:
                     self.rising = True
@@ -2338,7 +2342,7 @@ class Hero(GameObject):
             else: # hit the ground
                 self.yStatus = 1
                 # print("deltaY", self.deltaY)
-                self.jumpCount = 0
+                self.jumpStatus = 0
                 self.jumpTime = 0
                 self.ySpeed = self.deltaY
 
