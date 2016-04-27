@@ -1,0 +1,31 @@
+What I've done this week
+1. Maps. In TP1 I only had a demo stage with the hero and 3 obstacles. Now I have written 3 stages with various features, including basic tiles and grass blocks, moving obstacles and bars, spikes pointing to different directions, zombies, as well as some obstacles that grow larger and smaller alternately.
+
+2. Previously, I used pygame's original collision detector to check collision. However, in order to check whether the player makes a legal move (move left, right, jump, fall) we need to know that in the next frame, whether the hero will collide with a block from left, right, up or down, so as to make the move. Moreover, when the hero is falling, for example, if he will collide into the grass block, I'll calculate the exact distance between the hero and the block, and make move such that the hero will stop right above the surface.
+
+3. I have wrote a bunch of classes of objects.
+(1) Tile is a basic building block that the hero cannot stand on
+
+(2) Grass is a basic ground block that the hero can stand on
+
+(3) Obstacle, FlippedObstacle, RightObstacle, and LeftObstacle are objects that don't move and that the hero cannot touch
+
+(4) RisingObstacle, FallingObstacle, LeftBar, and RightBar are objects that will move according to the hero's position and kill the hero if collides. Basically, there is a specific range for the safety distance between player and the object. If the hero falls in that range, the object will begin to move.
+
+(5) ZoomingObstacle is the class of obstacles that grow larger and smaller alternately. Similarly, if the player collides with such obstacles, he dies.
+
+(6) Zombie. Zombies are walking enemies that has a random initial speed and a random initial direction. They can only walk within a certain range, and if they reach the boundary they automatically change direction and continue walking. Zombies do not attack the hero, but kill the hero if they collide with each other. They can be killed with bullets.
+
+The appearance of zombies have a special animation effect (I call it upgrade). Zombies were initially under the grass block, but when the hero comes near, they are activated and will upgrade every 3 frames. There are 4 images for the zombies' upgrade.
+
+(7) Bullet. Bullets are the weapons of the hero. The hero shots a bullet if the player hits the space key. Bullets fly at a specific speed, and each bullet's direction is the same as the player's direction when shoting.
+
+4. Another important feature of the game is Save points. I have completed the Save and GreenSave classes. Each stage has a save point on the map. If the hero touches the save button, the save becomes greenSave, which means already saved.
+
+Reborn is related to the SAVE feature as well. Every time the hero dies, the player can hit R key to resurrect at the initial position. But if the hero has already saved the new reborn position by touching the save point, he resurrects at the save point (where greenSave is at).
+
+5. Generally the rightmost column of each stage is blocked largely with tiles, and there is only quite little white space after the player passes all the obstacles. If the hero hits the rightmost side of the screen, he goes to the next stage. I've already completed the process for changing stages.
+
+6. Previously, every second the hero jumps the same amount of height and falls the same amount of height as well. This week I've added gravitation to the hero's vertical movement. The hero now rises and falls with gravitational acceleration - rises increasingly more slowly and falls increasingly faster.
+
+7. One thing I'm still working on (but with some bugs right now) is triangle collision. I'm trying to make the collision with triangle obstacles special, such that the hero only dies if he hits the triangle part of the obstacle, but doesn't die if he touches the rest of the spaces (within in the square but outside the triangle).

@@ -1,0 +1,12 @@
+TP1 Checkpoint
+1. Design the game contents & features: 2 hour
+2. Install and learn Pygame: 4 hours
+3. Basic code for TP1: 3.5 hours
+4. Other write-ups for TP1: 2 hours
+
+TP2 Checkpoint
+1. Designing and coding stages, rewriting collision, creating new classes and related updates, debugging...
+Total time
+Apr.18: 12 hours
+Apr.19: 13 hours
+Apr.20: 4.5 hours
