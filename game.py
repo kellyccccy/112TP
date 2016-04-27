@@ -2080,7 +2080,7 @@ class Hero(GameObject):
         self.maxSpeed = 5
         self.maxYSpeed = 5
         self.gravity = 0.5
-        self.jump = -3
+        self.jump = -5
         self.direction = 1
         # 2 directions: 1 for to right, -1 for to left
         self.yStatus = 1
@@ -2259,7 +2259,7 @@ class Hero(GameObject):
     def moveUp(self):
         # print("moving up")
         self.yStatus = 0 # in air
-        self.ySpeed += self.jump
+        self.ySpeed = self.jump
         if self.isLegalJump():
             # print("legal jump", self.y, self.ySpeed)
             if abs(self.ySpeed) >= self.maxYSpeed:
@@ -2271,7 +2271,6 @@ class Hero(GameObject):
 
     def moveDown(self):
         if self.isLegalFall(): # in air but not jumping, i.e. free fall
-            print("falling")
             self.ySpeed += self.gravity
             if self.ySpeed < 0:
                 self.rising = True
@@ -2283,7 +2282,6 @@ class Hero(GameObject):
             self.yStatus = 1
             # print("deltaY", self.deltaY)
             self.jumpStatus = 0
-            self.jumpTime = 0
             self.ySpeed = self.deltaY
 
 
@@ -2334,8 +2332,8 @@ class Hero(GameObject):
             self.xSpeed = 0
 
         if IWANNA.stage != 7:
-            print(self.jumpStatus)
-            if keysDown(pygame.K_UP) : # try to jump
+            #print(self.jumpStatus, self.jumpTime)
+            if keysDown(pygame.K_LSHIFT) : # try to jump
                 if(self.jumpTime > 7):
                     #falling
                     self.moveDown()# print("pressed Up")
@@ -2350,10 +2348,9 @@ class Hero(GameObject):
                 
                 self.jumpTime += 1
             else:
+                self.jumpTime = 0
                 if(self.jumpStatus == 1):
                     self.jumpStatus = 2
-                    self.jumpTime = 0
-		
                 self.moveDown()
         if self.flipped == True:
             self.flipImage()
@@ -2364,7 +2361,7 @@ class Hero(GameObject):
         # the bottom floor and stand / walk there.
         if IWANNA.stage == 7:
             # boss stage
-            if keysDown(pygame.K_UP):
+            if keysDown(pygame.K_LSHIFT):
                 if self.onFloor == True:
                     self.vFlipped = True
                 else:
