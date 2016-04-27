@@ -2269,6 +2269,25 @@ class Hero(GameObject):
             # print("moving up", self.y, self.ySpeed)
         # print("yspeed", self.ySpeed)
 
+    def moveDown(self):
+        if self.isLegalFall(): # in air but not jumping, i.e. free fall
+            print("falling")
+            self.ySpeed += self.gravity
+            if self.ySpeed < 0:
+                self.rising = True
+            if self.ySpeed <= -self.maxYSpeed:
+                self.ySpeed = -self.maxYSpeed
+            if not self.isLegalJump():
+                self.ySpeed = self.deltaY
+        else: # hit the ground
+            self.yStatus = 1
+            # print("deltaY", self.deltaY)
+            self.jumpStatus = 0
+            self.jumpTime = 0
+            self.ySpeed = self.deltaY
+
+
+
 
     # the following four functions are for stage 7 only
     def moveToTop(self):
@@ -2315,9 +2334,12 @@ class Hero(GameObject):
             self.xSpeed = 0
 
         if IWANNA.stage != 7:
-            if (keysDown(pygame.K_UP) and self.jumpStatus != 3 and self.jumpTime < 7): # try to jump
-                # print("pressed Up")
-                if(self.jumpStatus == 0):
+            print(self.jumpStatus)
+            if keysDown(pygame.K_UP) : # try to jump
+                if(self.jumpTime > 7):
+                    #falling
+                    self.moveDown()# print("pressed Up")
+                elif(self.jumpStatus == 0):
                     self.moveUp()
                     self.jumpStatus += 1
                     self.jumpTime = 0
@@ -2325,27 +2347,14 @@ class Hero(GameObject):
                     self.moveUp()
                     self.jumpStatus += 1
                     self.jumpTime = 0
+                
                 self.jumpTime += 1
-            elif self.isLegalFall(): # in air but not jumping, i.e. free fall
-                # print("falling")
+            else:
                 if(self.jumpStatus == 1):
-                    self.jumpStatus += 1
-                self.jumpTime = 0
-                self.ySpeed += self.gravity
-                if self.ySpeed < 0:
-                    self.rising = True
-                if self.ySpeed <= -self.maxYSpeed:
-                    self.ySpeed = -self.maxYSpeed
-                if not self.isLegalJump():
-                    self.ySpeed = self.deltaY
-
-            else: # hit the ground
-                self.yStatus = 1
-                # print("deltaY", self.deltaY)
-                self.jumpStatus = 0
-                self.jumpTime = 0
-                self.ySpeed = self.deltaY
-
+                    self.jumpStatus = 2
+                    self.jumpTime = 0
+		
+                self.moveDown()
         if self.flipped == True:
             self.flipImage()
 
