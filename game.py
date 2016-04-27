@@ -88,14 +88,14 @@ class PygameGame(object):
 
 
 class Game(PygameGame):
-    def init(self, stage=0, saved=False):
+    def init(self, stage=5, saved=False):
         self.stage = stage
 
         self.blockSize = 20
         self.hitWall = False
 
-        self.heroX = 70
-        self.heroY = 350
+        self.heroX = 300
+        self.heroY = 200
 
         self.gameOver = False
 
@@ -262,10 +262,10 @@ class Game(PygameGame):
         self.xBoxes = pygame.sprite.Group()
         self.groupBoxes = pygame.sprite.Group()
 
-        if self.stage == 0:
-            self.initStage0()
+        if self.stage == 5:
+            self.initBoss0()
 
-        self.key = False
+        self.key = True
         
 
     def getX(self, n):
@@ -3736,8 +3736,8 @@ class CircleBox(Box):
     def resetSpeed(self):
         heroX = IWANNA.hero.x
         heroY = IWANNA.hero.y
-        self.xSpeed = (heroX - self.x) / 40
-        self.ySpeed = (heroY - self.y) / 40
+        self.xSpeed = (heroX - self.x) / 50
+        self.ySpeed = (heroY - self.y) / 50
 
     def update(self,screenWidth, screenHeight):
         if self.xSpeed > 0:
