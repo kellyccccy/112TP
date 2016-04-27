@@ -88,14 +88,14 @@ class PygameGame(object):
 
 
 class Game(PygameGame):
-    def init(self, stage=0, saved=False):
+    def init(self, stage=7, saved=False):
         self.stage = stage
 
         self.blockSize = 20
         self.hitWall = False
 
         self.heroX = 70
-        self.heroY = 350
+        self.heroY = 80
 
         self.gameOver = False
 
@@ -107,19 +107,15 @@ class Game(PygameGame):
         self.saved = saved # if any save points were reached
 
         Background.init()
-        Background2.init()
         self.backgrounds = pygame.sprite.Group()
 
         Bar.init()
-        Bar2.init()
         self.bars = pygame.sprite.Group()
 
         Column.init()
-        Column2.init()
         self.columns = pygame.sprite.Group()
 
         Block.init()
-        Block2.init()
         self.blocks = pygame.sprite.Group()
 
         Tile.init()
@@ -239,9 +235,6 @@ class Game(PygameGame):
         Portal.init()
         self.portalGroup = pygame.sprite.GroupSingle()
 
-        BlackFrame.init()
-        self.blackFrameGroup = pygame.sprite.GroupSingle()
-
         Frame.init()
         self.frameGroup = pygame.sprite.GroupSingle()
 
@@ -262,10 +255,10 @@ class Game(PygameGame):
         self.xBoxes = pygame.sprite.Group()
         self.groupBoxes = pygame.sprite.Group()
 
-        if self.stage == 0:
-            self.initStage0()
+        if self.stage == 7:
+            self.initBossFinal()
 
-        self.key = False
+        self.key = True
         
 
     def getX(self, n):
@@ -1019,158 +1012,11 @@ class Game(PygameGame):
     def initBossFinal(self):
         self.bgColor = (0, 0, 0)
 
-        self.blackFrame = BlackFrame(300, 200)
-        self.blackFrameGroup.add(self.blackFrame)
-
         self.frame = Frame(300, 200)
         self.frameGroup.add(self.frame)
 
         self.bossBg = BossBg(300, 200)
         self.bossBgGroup.add(self.bossBg)
-
-
-
-    def initFinal(self):
-        for i in range(30):
-            for j in range(20):
-                x = self.getX(i)
-                y = self.getY(j)
-                self.backgrounds.add(Background2(x, y))
-
-        # init bars
-        for i in range(1, 29):
-            x = self.getX(i)
-            y = self.getY(0)
-            self.bars.add(Bar2(x, y))
-        for i in range(1, 29):
-            x = self.getX(i)
-            y = self.getY(19)
-            self.bars.add(Bar2(x, y))
-
-        # init columns
-        for j in range(1, 19):
-            x = self.getX(0)
-            y = self.getY(j)
-            self.columns.add(Column2(x, y))
-        for j in range(1, 19):
-            x = self.getX(29)
-            y = self.getY(j)
-            self.columns.add(Column2(x, y))
-
-        # init blocks
-        self.blocks.add(Block2(self.getX(0), self.getY(0)))
-        self.blocks.add(Block2(self.getX(29), self.getY(0)))
-        self.blocks.add(Block2(self.getX(0), self.getY(19)))
-        self.blocks.add(Block2(self.getX(29), self.getY(19)))
-        
-        # write THANK YOU
-        for i in range(2, 6):
-            x = self.getX(i)
-            y = self.getY(16)
-            self.blocks.add(Block2(x, y))
-        for j in range(12, 16):
-            x = self.getX(4)
-            y = self.getY(j)
-            self.blocks.add(Block2(x, y))
-
-        for j in range(12, 17):
-            x = self.getX(7)
-            y = self.getY(j)
-            self.blocks.add(Block2(x, y))
-        for j in range(12, 17):
-            x = self.getX(10)
-            y = self.getY(j)
-            self.blocks.add(Block2(x, y))
-        for i in range(8, 10):
-            x = self.getX(i)
-            y = self.getY(14)
-            self.blocks.add(Block2(x, y))
-
-        for i in range(12, 16):
-            x = self.getX(i)
-            y = self.getY(13)
-            self.blocks.add(Block2(x, y))
-        self.blocks.add(Block2(self.getX(12), self.getY(12)))
-        self.blocks.add(Block2(self.getX(13), self.getY(14)))
-        self.blocks.add(Block2(self.getX(13), self.getY(15)))
-        self.blocks.add(Block2(self.getX(15), self.getY(14)))
-        self.blocks.add(Block2(self.getX(15), self.getY(15)))
-        self.blocks.add(Block2(self.getX(14), self.getY(16)))
-        self.blocks.add(Block2(self.getX(16), self.getY(12)))
-
-        for j in range(12, 17):
-            x = self.getX(18)
-            y = self.getY(j)
-            self.blocks.add(Block2(x, y))
-        for j in range(12, 17):
-            x = self.getX(22)
-            y = self.getY(j)
-            self.blocks.add(Block2(x, y))
-        self.blocks.add(Block2(self.getX(19), self.getY(15)))
-        self.blocks.add(Block2(self.getX(20), self.getY(14)))
-        self.blocks.add(Block2(self.getX(21), self.getY(13)))
-
-        for j in range(12, 17):
-            x = self.getX(24)
-            y = self.getY(j)
-            self.blocks.add(Block2(x, y))
-        self.blocks.add(Block2(self.getX(25), self.getY(14)))
-        self.blocks.add(Block2(self.getX(26), self.getY(13)))
-        self.blocks.add(Block2(self.getX(26), self.getY(15)))
-        self.blocks.add(Block2(self.getX(27), self.getY(16)))
-        self.blocks.add(Block2(self.getX(27), self.getY(12)))
-
-        # init YOU
-        self.blocks.add(Block2(self.getX(4), self.getY(9)))
-        self.blocks.add(Block2(self.getX(5), self.getY(8)))
-        self.blocks.add(Block2(self.getX(7), self.getY(8)))
-        self.blocks.add(Block2(self.getX(8), self.getY(9)))
-        for j in range(5, 8):
-            x = self.getX(6)
-            y = self.getY(j)
-            self.blocks.add(Block2(x, y))
-
-        for i in range(10, 14):
-            x = self.getX(i)
-            y = self.getY(9)
-            self.blocks.add(Block2(x, y))
-        for i in range(10, 14):
-            x = self.getX(i)
-            y = self.getY(5)
-            self.blocks.add(Block2(x, y))
-        for j in range(6, 9):
-            x = self.getX(10)
-            y = self.getY(j)
-            self.blocks.add(Block2(x, y))
-        for j in range(6, 9):
-            x = self.getX(13)
-            y = self.getY(j)
-            self.blocks.add(Block2(x, y))
-
-        for i in range(15, 19):
-            x = self.getX(i)
-            y = self.getY(5)
-            self.blocks.add(Block2(x, y))
-        for j in range(6, 10):
-            x = self.getX(15)
-            y = self.getY(j)
-            self.blocks.add(Block2(x, y))
-        for j in range(6, 10):
-            x = self.getX(18)
-            y = self.getY(j)
-            self.blocks.add(Block2(x, y))
-
-        self.blocks.add(Block2(self.getX(20), self.getY(8)))
-        self.blocks.add(Block2(self.getX(20), self.getY(7)))
-        self.blocks.add(Block2(self.getX(21), self.getY(9)))
-        self.blocks.add(Block2(self.getX(21), self.getY(6)))
-        self.blocks.add(Block2(self.getX(22), self.getY(8)))
-        self.blocks.add(Block2(self.getX(22), self.getY(5)))
-        self.blocks.add(Block2(self.getX(23), self.getY(9)))
-        self.blocks.add(Block2(self.getX(23), self.getY(6)))
-        self.blocks.add(Block2(self.getX(24), self.getY(8)))
-        self.blocks.add(Block2(self.getX(24), self.getY(7)))
-
 
 
     def keyPressed(self, code, mod):
@@ -1215,7 +1061,6 @@ class Game(PygameGame):
             self.init(self.stage, self.saved)
             self.hero = Hero(self.greenSave.x, self.greenSave.y)
             self.heroGroup = pygame.sprite.GroupSingle(self.hero)
-            self.resetMovingObstacles()
             if self.stage == 0:
                 self.initStage0()
             elif self.stage == 1:
@@ -1288,13 +1133,6 @@ class Game(PygameGame):
         self.guyBullets.empty()
         self.guyHealthGreens.empty()
         self.guyHealthReds.empty()
-        self.bgBoxes.empty()
-        self.bossGroup.empty()
-        self.bouncingBoxes.empty()
-        self.xBoxes.empty()
-        self.groupBoxes.empty()
-        self.tracingBoxes.empty()
-        self.circleBoxes.empty()
 
 
     def touchObstacle(self):
@@ -1835,7 +1673,6 @@ class Game(PygameGame):
 
 
     def timerFired7(self, dt):
-        hero = self.heroGroup.sprite
         self.bossGroup.update(self.width, self.height)
         self.boxes.update(self.width, self.height)
         self.bouncingBoxes.update(self.width, self.height)
@@ -1848,36 +1685,6 @@ class Game(PygameGame):
         self.frameGroup.update(self.width, self.height)
         self.bgBoxes.update(self.width, self.height)
 
-        if pygame.sprite.groupcollide(self.heroGroup, self.boxes,
-            False, False):
-            self.collisions.add(Collision(hero.x, hero.y))
-            self.gameOver = True
-
-        if pygame.sprite.groupcollide(self.heroGroup, self.bouncingBoxes,
-            False, False):
-            self.collisions.add(Collision(hero.x, hero.y))
-            self.gameOver = True
-
-        if pygame.sprite.groupcollide(self.heroGroup, self.circleBoxes,
-            False, False):
-            self.collisions.add(Collision(hero.x, hero.y))
-            self.gameOver = True
-
-        if pygame.sprite.groupcollide(self.heroGroup, self.tracingBoxes,
-            False, False):
-            self.collisions.add(Collision(hero.x, hero.y))
-            self.gameOver = True
-
-        if pygame.sprite.groupcollide(self.heroGroup, self.xBoxes,
-            False, False):
-            self.collisions.add(Collision(hero.x, hero.y))
-            self.gameOver = True
-
-        if pygame.sprite.groupcollide(self.heroGroup, self.groupBoxes,
-            False, False):
-            self.collisions.add(Collision(hero.x, hero.y))
-            self.gameOver = True
-
         if self.bossTime % 15 == 0:
             self.bgBoxes.add(BgBox(300, 200))
 
@@ -1885,68 +1692,28 @@ class Game(PygameGame):
             self.boss = Boss(300, 200)
             self.bossGroup.add(self.boss)
         
-        elif self.bossTime >= 200 and self.bossTime <= 350:
+        if self.bossTime >= 200 and self.bossTime <= 350:
             if self.bossTime % 5 == 0:
                 self.tracingBoxes.add(TracingBox(300, 200, 0, 0))
 
-        elif self.bossTime == 500:
+        if self.bossTime == 500:
             self.createXBoxes()
 
-        elif self.bossTime == 760:
-            self.xBoxes.empty()
+        if self.bossTime == 860:
             self.createCircleBoxes()
 
-        elif self.bossTime == 830:
+        if self.bossTime == 930:
             self.createCircleBoxes()
 
-        elif self.bossTime == 900:
+        if self.bossTime == 1000:
             self.createCircleBoxes()
 
-        elif self.bossTime == 1000:
-            self.circleBoxes.empty()
-
-        elif (self.bossTime >= 1000 and self.bossTime < 1400 and 
-            self.bossTime % 50 == 0):
-            speed = -4
-            for y in range(37, 122, 24):
+        if self.bossTime >= 1100 and self.bossTime % 50 == 0:
+            speed = -5
+            for y in range(36, 91, 18):
                 self.groupBoxes.add(GroupBox(541, y, speed, 0))
-            for y in range(363, 266, -24):
+            for y in range(366, 311, -18):
                 self.groupBoxes.add(GroupBox(541, y, speed, 0))
-
-        elif (self.bossTime >= 1400 and self.bossTime < 1800 and 
-            self.bossTime % 20 == 0):
-            xSpeed = (self.hero.x - 300) / 40
-            ySpeed = (self.hero.y - 200) / 40
-            self.bouncingBoxes.add(BouncingBox(300, 200, xSpeed, ySpeed))
-
-        elif (self.bossTime >= 1800 and self.bossTime < 2100 and
-            self.bossTime % 70 == 0):
-            speed = -6
-            for x in range(541, 733, 24):
-                self.groupBoxes.add(GroupBox(x, 37, speed, 0))
-                self.groupBoxes.add(GroupBox(x, 363, speed, 0))
-
-        elif (self.bossTime >= 2200 and self.bossTime < 2500 and 
-            self.bossTime % 20 == 0):
-            xSpeed = (self.hero.x - 300) / 40
-            ySpeed = (self.hero.y - 200) / 40
-            self.bouncingBoxes.add(BouncingBox(300, 200, xSpeed, ySpeed))
-
-        if self.bossTime == 2500:
-            self.boss.die = True
-            self.boss.goDie()
-
-            self.portal = Portal(300, 200)
-            self.portalGroup.add(self.portal)
-
-        if pygame.sprite.groupcollide(self.heroGroup, self.portalGroup,
-            False, False, pygame.sprite.collide_circle):
-            self.stage += 1
-            self.temp = False
-            self.init(self.stage, self.saved)
-            self.hero = Hero(450, 270)
-            self.heroGroup = pygame.sprite.GroupSingle(self.hero)
-            self.initFinal()
 
 
     def createXBoxes(self):
@@ -1977,6 +1744,7 @@ class Game(PygameGame):
         self.blocks.draw(screen)
         self.bossBgGroup.draw(screen)
         self.bgBoxes.draw(screen)
+        self.frameGroup.draw(screen)
         self.portalGroup.draw(screen)
         self.trees.draw(screen)
         self.planks.draw(screen)
@@ -2021,8 +1789,6 @@ class Game(PygameGame):
         self.xBoxes.draw(screen)
         self.groupBoxes.draw(screen)
         self.bossGroup.draw(screen)
-        self.blackFrameGroup.draw(screen)
-        self.frameGroup.draw(screen)
         if self.key == False:
             self.collisions.draw(screen)
         self.heroGroup.draw(screen)
@@ -2391,26 +2157,6 @@ class Background(GameObject):
         super(Background, self).__init__(x, y, Background.image, 10)
 
 
-class Background2(GameObject):
-    @staticmethod
-    def init():
-        image = pygame.image.load("greenBG.png").convert()
-        Background2.image = pygame.transform.scale(image, (20, 20))
-
-    def __init__(self, x, y):
-        super(Background2, self).__init__(x, y, Background2.image, 10)
-
-
-class Block2(GameObject):
-    @staticmethod
-    def init():
-        image = pygame.image.load("greenBlock.png").convert()
-        Block2.image = pygame.transform.scale(image, (20, 20))
-
-    def __init__(self, x, y):
-        super(Block2, self).__init__(x, y, Block2.image, 10)
-
-
 class Block(GameObject):
     @staticmethod
     def init():
@@ -2431,16 +2177,6 @@ class Bar(GameObject):
         super(Bar, self).__init__(x, y, Bar.image, 10)
 
 
-class Bar2(GameObject):
-    @staticmethod
-    def init():
-        image = pygame.image.load("greenBarBar.png").convert()
-        Bar2.image = pygame.transform.scale(image, (20, 20))
-
-    def __init__(self, x, y):
-        super(Bar2, self).__init__(x, y, Bar2.image, 10)
-
-
 class Column(GameObject):
     @staticmethod
     def init():
@@ -2449,16 +2185,6 @@ class Column(GameObject):
 
     def __init__(self, x, y):
         super(Column, self).__init__(x, y, Column.image, 10)
-
-
-class Column2(GameObject):
-    @staticmethod
-    def init():
-        image = pygame.image.load("greenColumn.png").convert()
-        Column2.image = pygame.transform.scale(image, (20, 20))
-
-    def __init__(self, x, y):
-        super(Column2, self).__init__(x, y, Column2.image, 10)
 
 
 class Tile(GameObject):
@@ -3382,7 +3108,7 @@ class Guy(GameObject):
     def getDie(self):
         if self.currHealth <= 0:
             self.die = True
-            self.ySpeed = -20
+            self.ySpeed = -10
 
     def getImage(self):
         if self.immuneTime > 0:
@@ -3513,19 +3239,6 @@ class GuyBullet(GameObject):
         super(GuyBullet, self).update(screenWidth, screenHeight)
 
 
-class BlackFrame(GameObject):
-    @staticmethod
-    def init():
-        BlackFrame.image = pygame.Surface((600, 400), pygame.SRCALPHA)
-        pygame.draw.rect(BlackFrame.image, (0, 0, 0), (0, 0, 49, 400))
-        pygame.draw.rect(BlackFrame.image, (0, 0, 0), (0, 0, 600, 24))
-        pygame.draw.rect(BlackFrame.image, (0, 0, 0), (551, 0, 49, 400))
-        pygame.draw.rect(BlackFrame.image, (0, 0, 0), (0, 376, 600, 24))
-
-    def __init__(self, x, y):
-        super(BlackFrame, self).__init__(x, y, BlackFrame.image, 300)
-
-
 class Frame(GameObject):
     @staticmethod
     def init():
@@ -3630,7 +3343,6 @@ class Boss(GameObject):
         self.yMin = 180
         self.yMax = 220
         self.addSpeed = 3
-        self.die = False
 
     def enlarge(self):
         self.width += 2
@@ -3661,14 +3373,6 @@ class Boss(GameObject):
         elif self.y == self.yMin:
             self.ySpeed = 1
 
-    def goDie(self):
-        self.xSpeed = (IWANNA.hero.x - 300) / 10
-        self.ySpeed = (IWANNA.hero.y - 200) / 10
-        self.width -= 2
-        self.height -= 2
-        self.image = pygame.transform.scale(Boss.image, 
-            (self.width, self.height))
-
     def update(self, screenWidth, screenHeight):
         self.time += 1
         if self.time % 2 == 0 and self.time <= 110:
@@ -3687,10 +3391,10 @@ class Box(GameObject):
     @staticmethod
     def init():
         image = pygame.image.load("box.png").convert_alpha()
-        Box.image = pygame.transform.scale(image, (24, 24))
+        Box.image = pygame.transform.scale(image, (18, 18))
 
     def __init__(self, x, y, xSpeed, ySpeed):
-        super(Box, self).__init__(x, y, Box.image, 12)
+        super(Box, self).__init__(x, y, Box.image, 9)
         self.xSpeed = xSpeed
         self.ySpeed = ySpeed
         self.time = 0
@@ -3772,13 +3476,13 @@ class TracingBox(Box):
         heroX = IWANNA.hero.x
         heroY = IWANNA.hero.y
         if IWANNA.hero.xSpeed >= 0:
-            self.xSpeed = (heroX - self.x + 2) / 12 + random.randint(0, 3)
+            self.xSpeed = (heroX - self.x) / 12 + random.randint(0, 5)
         elif IWANNA.hero.xSpeed <= 0:
-            self.xSpeed = (heroX - self.x - 2) / 12 - random.randint(0, 3)
+            self.xSpeed = (heroX - self.x) / 12 - random.randint(0, 5)
         if IWANNA.hero.ySpeed >= 0:
-            self.ySpeed = (heroY - self.y + 1) / 12 + random.randint(0, 3)
+            self.ySpeed = (heroY - self.y) / 12 + random.randint(0, 5)
         else:
-            self.ySpeed = (heroY - self.y - 1) / 12 - random.randint(0, 3)
+            self.ySpeed = (heroY - self.y) / 12 - random.randint(0, 5)
 
     def update(self, screenWidth, screenHeight):
         if self.time % 15 == 0:
@@ -3804,19 +3508,19 @@ class XBox(Box):
     def resetSpeed(self):
         self.ratio = 6 - abs(self.index - 6)
         if self.originalXSpeed > 0 and self.originalYSpeed > 0:
-            self.xSpeed = -self.originalXSpeed / 10 * self.ratio / (self.index/3)
-            self.ySpeed = self.originalYSpeed / 10 * self.ratio / (self.index/3)
+            self.xSpeed = -self.originalXSpeed / 20 * self.ratio
+            self.ySpeed = self.originalYSpeed / 20 * self.ratio
         elif self.originalXSpeed < 0 and self.originalYSpeed > 0:
-            self.xSpeed = self.originalXSpeed / 10 * self.ratio / (self.index/3)
-            self.ySpeed = -self.originalYSpeed / 10 * self.ratio / (self.index/3)
+            self.xSpeed = self.originalXSpeed / 20 * self.ratio
+            self.ySpeed = -self.originalYSpeed / 20 * self.ratio
         elif self.originalXSpeed < 0 and self.originalYSpeed < 0:
-            self.xSpeed = -self.originalXSpeed / 10 * self.ratio / (self.index/3)
-            self.ySpeed = self.originalYSpeed / 10 * self.ratio / (self.index/3)
+            self.xSpeed = -self.originalXSpeed / 20 * self.ratio
+            self.ySpeed = self.originalYSpeed / 20 * self.ratio
         elif self.originalXSpeed > 0 and self.originalYSpeed < 0:
-            self.xSpeed = self.originalXSpeed / 10 * self.ratio / (self.index/3)
-            self.ySpeed = -self.originalYSpeed / 1 * self.ratio / (self.index/3)
-        self.deltaXSpeed = random.randint(-self.ratio, self.ratio)/5
-        self.deltaYSpeed = random.randint(-self.ratio, self.ratio)/5
+            self.xSpeed = self.originalXSpeed / 20 * self.ratio
+            self.ySpeed = -self.originalYSpeed / 20 * self.ratio
+        self.deltaXSpeed = random.randint(-self.ratio, self.ratio)/3
+        self.deltaYSpeed = random.randint(-self.ratio, self.ratio)/3
         self.xSpeed += self.deltaXSpeed
         self.ySpeed += self.deltaYSpeed
 
@@ -3834,7 +3538,7 @@ class XBox(Box):
             self.ySpeed = -self.ySpeed
         elif self.y - self.height/2 <= 25:
             self.ySpeed = -self.ySpeed
-        if self.time > 250:
+        if self.time > 350:
             self.kill()
         super(XBox, self).update(screenWidth, screenHeight)
 
